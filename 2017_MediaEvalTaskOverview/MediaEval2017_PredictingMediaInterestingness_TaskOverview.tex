@@ -1,0 +1,203 @@
+%%%% Proceedings format for most of ACM conferences (with the exceptions listed below) and all ICPS volumes.
+\documentclass[sigconf]{acmart-me}
+%%%% As of March 2017, [siggraph] is no longer used. Please use sigconf (above) for SIGGRAPH conferences.
+
+%%%% Proceedings format for SIGPLAN conferences 
+% \documentclass[sigplan, anonymous, review]{acmart}
+
+%%%% Proceedings format for SIGCHI conferences
+% \documentclass[sigchi, review]{acmart}
+
+%%%% To use the SIGCHI extended abstract template, please visit
+% https://www.overleaf.com/read/zzzfqvkmrfzn
+
+\usepackage{booktabs} % For formal tables
+\usepackage{url}
+\usepackage{color}
+\usepackage{enumitem}
+\hyphenation{Media-Eval}
+
+
+
+
+% Copyright
+%\setcopyright{none}
+%\setcopyright{acmcopyright}
+%\setcopyright{acmlicensed}
+\setcopyright{rightsretained}
+%\setcopyright{usgov}
+%\setcopyright{usgovmixed}
+%\setcopyright{cagov}
+%\setcopyright{cagovmixed}
+
+
+% DOI
+\acmDOI{}
+
+% ISBN
+\acmISBN{}
+
+%Conference
+\acmConference[MediaEval'17]{Multimedia Evaluation Workshop}{13-15 September 2017}{Dublin, Ireland} 
+\acmYear{}
+\copyrightyear{}
+
+\acmPrice{}
+
+
+\begin{document}
+\title{MediaEval 2017 Predicting Media Interestingness Task}
+
+%\titlenote{Produces the permission block, and
+%  copyright information}
+%\subtitle{Extended Abstract}
+%\subtitlenote{The full version of the author's guide is available as
+ % \texttt{acmart.pdf} document}
+
+
+%%If you want to use multi-column authors that's fine. Comment out the next lines, and then uncomment below.
+%\author{Martha Larson\textsuperscript{1}, Gareth Jones\textsuperscript{2}, Bogdan Ionescu\textsuperscript{3},\\ Mohammad Soleymani\textsuperscript{4}, Guillaume Gravier\textsuperscript{5}}
+%\affiliation{\textsuperscript{1}Radboud University, Netherlands\\ \textsuperscript{2}Dublin City University, Ireland \\ \textsuperscript{3}University Politehnica of Bucharest, Romania \\ \textsuperscript{4}University of Geneva, Switzerland \\ \textsuperscript{5}CNRS IRISA and Inria Rennes, France}
+%\email{m.a.larson@tudelft.nl, gareth.jones@computing.dcu.ie, bionescu@imag.pub.ro}
+%\email{mohammad.soleymani@unige.ch, guig@irisa.fr}
+%
+\author{Claire-H\'{e}l\`{e}ne Demarty\textsuperscript{1}, Mats Sj\"{o}berg\textsupescript{2}, Bogdan Ionescu\textsuperscript{3}, Thanh-Toan Do\textsuperscript{4}, \\ Michael Gygli\textsuperscript{5}, Ngoc Q. K. Duong\textsuperscript{1}}
+\affiliation{\textsuperscript{1}Technicolor, Rennes, France\\ 
+\textsuperscript{2}HIIT, University of Helsinki, Finland\\ 
+\textsuperscript{3}LAPI, University Politehnica of Bucharest, Romania\\
+\textsuperscript{4}University of Science, Vietnam, University of Adelaide, Australia\\
+\textsuperscript{5}ETH Zurich, Switzerland \& Gifs.com, US}
+%\email{\small \{claire-helene.demarty, quang-khanh-ngoc.duong\}@technicolor.com, mats.sjoberg@helsinki.fi}
+%\email{\small bionescu@imag.pub.ro, thanhtoan\_do@sutd.edu.sg, gygli@vision.ee.ethz.ch}
+
+
+
+\renewcommand{\shortauthors}{C.H. Demarty et al.}
+
+
+\begin{abstract}
+\textcolor{red}{NOT CHANGED - copy-past from last year}
+This paper provides an overview of the Predicting Media
+Interestingness task that is organized as part of the Media\-Eval
+2017 Benchmarking Initiative for Multimedia Evaluation. The task, which is
+running for the second year, expects participants to create systems that automatically
+select images and video segments that are considered to be the most
+interesting for a common viewer. In this paper, we present the task use case and
+challenges, the proposed data set and ground truth, the required
+participant runs and the evaluation metrics.
+\end{abstract}
+
+
+\maketitle
+
+
+\section{Introduction}
+%===========================================
+
+\textcolor{red}{Bogdan, could you help for this?}
+
+\section{Task description}
+%================================================
+\textcolor{red}{NOT REALLY CHANGED - This comes from the wiki. Ngoc, if you want to rephrase, please help.}
+
+The Predicting Media Interestingness Task was proposed for the first time last year. This year's edition is a follow-up which builds incrementally upon the previous experience. The task requires participants to automatically select images and/or video segments which are considered to be the most interesting for a common viewer. Interestingness of media is to be judged based on visual appearance, audio information and text accompanying the data, including movie metadata. To solve the task, participants are strongly encouraged to deploy multimodal approaches.
+
+As in 2016, interestingness should be assessed according to a practical use case in industry, in particular at Technicolor\footnote{\url{http://www.technicolor.com}}, which involves helping professionals to illustrate a Video on Demand (VOD) web site by selecting some interesting frames and/or video excerpts for the movies. The frames and excerpts should be suitable in terms of helping a user to make his/her decision about whether he/she is interested in watching the whole movie.
+Once again, two subtasks will be offered to participants, which correspond to two types of available media content, namely images and videos. Participants are encouraged to submit to both subtasks. In both cases, the task is a binary classification task and prediction will be carried out on a per movie basis.
+
+\begin{itemize}
+\item \emph{Predicting Image Interestingness} Given a set of key-frames extracted from a certain movie, the task involves automatically identifying those images that viewers report to be interesting. To solve the task, participants can make use of visual content as well as accompanying metadata, e.g., Internet data about the movie, social media information, etc.
+\item \emph{Predicting Video Interestingness} Given a set of video segments extracted from a certain movie, the task involves automatically identifying the segments that viewers report to be interesting. To solve the task, participants can make use of visual and audio data as well as accompanying metadata, e.g., subtitles, Internet data about the movie, etc.
+\end{itemize}
+
+
+\section{Data description}
+%==============
+
+The data is extracted from Creative Commons licensed Hollywood-like videos: 103 movie trailers and 4 continuous extracts of ca. 15min from full-length movies. 
+
+For the video interestingness subtask, the data consists of video segments obtained after a manual segmentation. These segments correspond to shots (video shots are the continuous frame sequences recorded between a camera turn on and off) for all videos but four. Their average duration is of one second. The four last videos which correspond to the full-length movie extracts cited above, were manually segmented into longer segments with an average duration of \textcolor{red}{***}, to better take into account the a certain unity of meaning and the audio information of the resulting segments. For the image subtask, the data consists of collections of key-frames extracted from the video segments used for the video subtask (one key-frame per segment). This will allow comparing results from both subtasks. The extracted key-frame corresponds to the frame in the middle of each video segment.
+In total, 7,396 video segments and 7,396 key-frames are released in the development set, whereas the test set consists of \textcolor{red}{***} video segments and the same number of key-frames.
+
+\textcolor{red}{*** Here we could just copy-past what was said for the provided features last year or rewrite everything. Should we talk about the bug that was discovered in the face-tracking feature and the advice not to take into account negative values ? I am not sure of this. I am copying text from last year below. If we agree that this needs rephrasing, Michael, can you help for this part?***}
+
+To facilitate participation from various communities, we also
+provide some pre-computed content descriptors, namely: \emph{low
+level features} --- \emph{dense SIFT} (Scale Invariant Feature
+Transform) which are computed following the original work
+in~\cite{Lowe2004}, except that the local frame patches are densely
+sampled instead of using interest point detectors. A codebook of 300
+codewords is used in the quantization process with a spatial pyramid
+of three layers~\cite{Lazebnik2006}; \emph{HoG descriptors}
+(Histograms of Oriented Gradients)~\cite{Dalal2005} are computed
+over densely sampled patches. Following~\cite{Xiao2010}, HoG
+descriptors in a $2\times2$ neighborhood are concatenated to form a
+descriptor of higher dimension; \emph{LBP} (Local Binary
+Patterns)~\cite{Ojala2002}; \emph{GIST} are computed based on the
+output energy of several Gabor-like filters (8 orientations and 4
+scales) over a dense frame grid like in~\cite{Oliva2001};
+\emph{color histogram} computed in the HSV space
+(Hue-Saturation-Value); \emph{MFCC} (Mel-Frequency Cepstral
+Coefficients) computed over 32ms time-windows with 50\%
+overlap. The cepstral vectors are concatenated with their first and
+second derivatives; \emph{fc7 layer} (4,096 dimensions) and
+\emph{prob layer} (1,000 dimensions) of AlexNet~\cite{Jiang2015};
+\emph{mid level face detection and tracking related
+features}\footnote{\url{http://multimediaeval.org/mediaeval2016/persondiscovery/}}
+--- obtained by face tracking-by-detection in each video shot with a
+HoG detector~\cite{Dalal2005} and the correlation tracker proposed
+in~\cite{Danelljan2014}.
+
+\textcolor{red}{*** Michael, could you add a few words about your C3D feature? Your reference is also missing.***}
+
+
+\section{Ground truth}
+%============
+
+\textcolor{red}{Mats, could you help here?}
+** Do not forget to say that the question has changed in the web tool **
+
+Otherwise, i think it is exactly the same protocol as last year, except that we compute the final BTL on all the new data with an initialization from last year ranking. 1/ This was decided because of the cheating process to help remove the false data 2/ We checked visually that the rankings were ok and even a little better for some of the videos compared to what was obtained in 2016 (but very similar to what would have been obtained this year by following the same iterative process to compute the BTL) => this validates both ways of computing the BTL (one against the other) + the fact that the increased number of iterations did improve the ranking at least for the images.
+  
+Should we talk about the anti-cheating measures?
+
+Plus add a few figures as last year about the annotators population.
+
+
+\section{Run description}
+%==============
+
+Every team can submit up to 10 runs, 5 per subtask. For each subtask, a required run is defined: \emph{Image subtask - required run:} classification is to be achieved with the use of the visual information. External data is allowed. \emph{Video subtask - required run:} classification is to be achieved with the use of \emph{both} audio and visual information. External data is allowed.
+
+Apart from these required runs, any additional run for each subtask will be considered as a general run, i.e., anything is allowed, both from the method point of view and the information sources. 
+
+\section{Evaluation}
+%===========
+
+For both subtasks, the official evaluation metric will be the mean average precision at 10 (MAP@10) computed over all videos, and over the top 10 best ranked images/video shots. MAP@10 is selected because it reflects the VOD use case, where the goal is to select a small set of the most interesting images or video segments for each movie. To provide a large overview of the systems' performances, other common metrics will also be provided. All metrics will be computed by using the \texttt{trec\_eval} tool from
+NIST\footnote{\url{http://trec.nist.gov/trec\_eval/}}.
+
+\section{Conclusions}
+%===========
+\textcolor{red}{NOT CHANGED - copy-past from last year - Dont think we really need to change it. If yes, Bogdan can you do it?}
+The 2017 Predicting Media Interestingness task provides participants
+with a comparative and collaborative evaluation framework for
+predicting content interestingness with explicit focus on
+multimedia approaches. Details on the methods and results of each individual
+participant team can be found in the working note papers of the
+MediaEval 2017 workshop proceedings.
+
+\begin{acks}
+%========================
+We would like to thank Yu-Gang Jiang and Baohan Xu
+from the Fudan University, China, Herv\'{e} Bredin, from LIMSI,
+France, and Michael Gygli for providing the features that accompany the
+released data. Part of the task was funded under research grant PN-III-P2-2.1-PED-2016-1065, agreement 30PED/2017, project SPOTTER.
+\end{acks}
+
+
+\bibliographystyle{ACM-Reference-Format}
+\def\bibfont{\small} % comment this line for a smaller fontsize
+\bibliography{MediaEval2017_PredictingMediaInterestingness_TaskOverview}
+
+\end{document}
