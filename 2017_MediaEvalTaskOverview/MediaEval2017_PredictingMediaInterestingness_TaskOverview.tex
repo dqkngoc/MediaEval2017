@@ -61,9 +61,10 @@
 %\email{m.a.larson@tudelft.nl, gareth.jones@computing.dcu.ie, bionescu@imag.pub.ro}
 %\email{mohammad.soleymani@unige.ch, guig@irisa.fr}
 %
-\author{Claire-H\'{e}l\`{e}ne Demarty\textsuperscript{1}, Mats Sj\"{o}berg\textsupescript{2}, Bogdan Ionescu\textsuperscript{3}, Thanh-Toan Do\textsuperscript{4}, \\ Michael Gygli\textsuperscript{5}, Ngoc Q. K. Duong\textsuperscript{1}}
+\author{Claire-H\'{e}l\`{e}ne Demarty\textsuperscript{1}, Mats Sj\"{o}berg\textsuperscript{2}, Bogdan Ionescu\textsuperscript{3}, Thanh-Toan Do\textsuperscript{4}, \\ Michael Gygli\textsuperscript{5}, Ngoc Q. K. Duong\textsuperscript{1}}
 \affiliation{\textsuperscript{1}Technicolor, Rennes, France\\ 
-\textsuperscript{2}HIIT, University of Helsinki, Finland\\ 
+\textsuperscript{2}Dept.\ of Computer Science and Helsinki Institute for Information
+Technology HIIT, University of Helsinki, Finland\\ 
 \textsuperscript{3}LAPI, University Politehnica of Bucharest, Romania\\
 \textsuperscript{4}University of Science, Vietnam, University of Adelaide, Australia\\
 \textsuperscript{5}ETH Zurich, Switzerland \& Gifs.com, US}
@@ -154,14 +155,83 @@ in~\cite{Danelljan2014}.
 \section{Ground truth}
 %============
 
-\textcolor{red}{Mats, could you help here?}
-** Do not forget to say that the question has changed in the web tool **
+Both video and image data was manually annotated in terms of interestingness by human assessors.
+%%
+The annotation process was performed separately for the video and image subtasks, to allow us to study the correlation between the two.
+%%
+A dedicated web-based annotation tool was developed by the organising team for the previous edition of the task~\cite{demarty2016mediaeval}.
+%%
+This year we made some improvements to the web tool, and some minor changes to the annotation process were introduced.
+%%
+The tool has been released as free and open source software, so that others can benefit from it and contribute
+improvements\footnote{\url{https://github.com/mvsjober/pair-annotate}}.
+%%
+Overall, more than 202 annotators participated in the annotation for the video data and 144 for the images.
+%%
+The cultural distribution is over 20 different countries in the world.
 
-Otherwise, i think it is exactly the same protocol as last year, except that we compute the final BTL on all the new data with an initialization from last year ranking. 1/ This was decided because of the cheating process to help remove the false data 2/ We checked visually that the rankings were ok and even a little better for some of the videos compared to what was obtained in 2016 (but very similar to what would have been obtained this year by following the same iterative process to compute the BTL) => this validates both ways of computing the BTL (one against the other) + the fact that the increased number of iterations did improve the ranking at least for the images.
+%% FIXME numbers may change still...
+%%
+%% 2017, so far...
+%% Video side: 202
+%% Image side: 144
+%% 20 countries
+
+As in last year's setup we use a pair-wise comparison protocol~\cite{Bradley} where annotators are provided with a pair of images/shots at a time and asked to tag which one in the pair is the more interesting for them.
+%%
+As a change from last year, we now ask the question in a way more directly connected to the commercial application: ``Which image/video makes you more interested in watching the whole movie?''.
+%%
+We felt this would make the annotators' decision clearer, as otherwise ``interestingness'' can be interpreted in many ways.
+
+
+As an exhaustive annotation of all possible pairs is practically impossible due to the required human resources, a boosting selection was used instead.
+%%
+In particular, we used a modified version of the adaptive square design method~\cite{Li-SPIE2013}, in which several annotators participated in each iteration.  
+%%
+In this method the number of comparisons for each iteration is reduced from all possible pairs $n(n-1)/2 \sim \mathcal{O}(n^2)$ to a subset of pairs $n(\sqrt{n}-1) \sim \mathcal{O}(n^{\frac{3}{2}})$, where $n$ is the number of shots or images.
+%%
+For the development set, we started from iteration 6, as we could reuse the annotations done last year.
+%%
+To achieve the ranking used as the basis for the next round, the pair-based annotations are aggregated with the Bradley-Terry-Luce (BTL) model computation~\cite{Bradley} resulting in an interestingness degree for each image/shot.
+%%
+Previously the same procedure was also used to get the final interestingness values.
+%%
+This year we used an alternative method, which took into account all pair comparisons from all rounds done this year into a single large BTL calculation.
+%%
+This was done mainly because we discovered afterwards that some annotations from earlier rounds had to be discarded. 
+%%
+In the iterative approach, we could only discard annotations from the most recent round, as it would be based on the previous round's BTL output.
+
+
+The final binary decisions are obtained using a thresholding scheme that tries to detect the boundary where interestingness values make the ``jump'' between the underlying distributions of the non interesting and interesting populations.  See last year's overview paper for a more detailed description~\cite{demarty2016mediaeval}.
+
+% Otherwise, i think it is exactly the same protocol as last year, except that we compute the final BTL on all the new data with an initialization from last year ranking. 1/ This was decided because of the cheating process to help remove the false data 2/ We checked visually that the rankings were ok and even a little better for some of the videos compared to what was obtained in 2016 (but very similar to what would have been obtained this year by following the same iterative process to compute the BTL) => this validates both ways of computing the BTL (one against the other) + the fact that the increased number of iterations did improve the ranking at least for the images.
   
-Should we talk about the anti-cheating measures?
+% Should we talk about the anti-cheating measures?
 
-Plus add a few figures as last year about the annotators population.
+A new issue this year was that we discovered that some annotators were cheating.
+%%
+These annotators occasionally switched to cheating, where they simply always selected the first, or the second item as the most interesting one without actually assessing the media contents.
+%%
+We added some heuristic anti-cheating measures to the system, for example if the same position has been selected repeatedly for a given number of times in a given period of time that user would be logged out and presented with a notice about cheating having been detected.
+%%
+Votes matching these criteria were also marked as ``invalid'' and not included in the final BTL calculation.
+%%
+In the development set as much as 10\% of the annotations were marked as invalid according to a particular definition.
+%%
+The high number can be explained by the fact that a cheater can annotate much faster than an honest annotator.
+%%
+Detecting cheating is ultimately a very difficult task, as malicious annotators may easily create a new pattern in response to anti-cheating measures.
+%%
+Furthermore, it is not possible to unambiguously detect cheat votes by just analysing the voting patterns.  For example, an honest annotator may indeed get a surprisingly long sequence of votes for the same position just by chance, or a cheater may develop a method to select the items randomly.
+%%
+A possible idea for future versions of the system would be to occasionally present pairs for which the system already has a lot of consistent evidence for to test the annotator's honesty.
+%%
+If the annotator fails these several times it might be a good indication that he or she is cheating.
+%% 
+On the other hand, it is possible that annotators cheat only on very difficult cases.  In fact the difficulty of many of the judgements might be the reason why some people grow tired of annotating honestly.
+
+% Plus add a few figures as last year about the annotators population.
 
 
 \section{Run description}
