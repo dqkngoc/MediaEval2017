@@ -105,6 +105,8 @@ The Predicting Media Interestingness Task was proposed for the first time last y
 
 As in 2016, interestingness should be assessed according to a practical use case in industry, in particular at Technicolor\footnote{\url{http://www.technicolor.com}}, which involves helping professionals to illustrate a Video on Demand (VOD) web site by selecting some interesting frames and/or video excerpts for the movies. The frames and excerpts should be suitable in terms of helping a user to make his/her decision about whether he/she is interested in watching the whole movie.
 Once again, two subtasks will be offered to participants, which correspond to two types of available media content, namely images and videos. Participants are encouraged to submit to both subtasks. In both cases, the task is a binary classification task and prediction will be carried out on a per movie basis.
+% GYGLIM: Since the evaluation metric is MAP@10 the task is not really a classification, but a ranking task!
+The two taskes are:
 
 \begin{itemize}
 \item \emph{Predicting Image Interestingness} Given a set of key-frames extracted from a certain movie, the task involves automatically identifying those images that viewers report to be interesting. To solve the task, participants can make use of visual content as well as accompanying metadata, e.g., Internet data about the movie, social media information, etc.
@@ -121,6 +123,9 @@ For the video interestingness subtask, the data consists of video segments obtai
 In total, 7,396 video segments and 7,396 key-frames are released in the development set, whereas the test set consists of \textcolor{red}{***} video segments and the same number of key-frames.
 
 \textcolor{red}{*** Here we could just copy-past what was said for the provided features last year or rewrite everything. Should we talk about the bug that was discovered in the face-tracking feature and the advice not to take into account negative values ? I am not sure of this. I am copying text from last year below. If we agree that this needs rephrasing, Michael, can you help for this part?***}
+% GYGLIM: Not sure what exactly you mean here? The features description? I think it's ok, except we could simplify it by removing some details like the follwing:
+% MFCC (Mel-Frequency Cepstral Coefficients) computed over 32ms time-windows with 50% overlap. The cepstral vectors are concatenated with their first and second derivatives
+% --> maybe remmve the second sentence
 
 To facilitate participation from various communities, we also
 provide some pre-computed content descriptors, namely: \emph{low
@@ -149,7 +154,8 @@ features}\footnote{\url{http://multimediaeval.org/mediaeval2016/persondiscovery/
 HoG detector~\cite{Dalal2005} and the correlation tracker proposed
 in~\cite{Danelljan2014}.
 
-\textcolor{red}{*** Michael, could you add a few words about your C3D feature? Your reference is also missing.***}
+In addition to these frame-based features, we provide C3D~\cite{tran2015learning} features, which were extracted from \emph{fc6 layer} (4,096 dimensions) and averaged on a segment level.
+
 
 
 \section{Ground truth}
@@ -230,7 +236,8 @@ A possible idea for future versions of the system would be to occasionally prese
 If the annotator fails these several times it might be a good indication that he or she is cheating.
 %% 
 On the other hand, it is possible that annotators cheat only on very difficult cases.  In fact the difficulty of many of the judgements might be the reason why some people grow tired of annotating honestly.
-
+\textcolor{red}{GYGLIM: This tells the story of events in the annotation process, rather than being useful for getting an overview. It is too long and needs serious rewriting.
+Also, a better check, in my opinion is to show the same pair again at a later time (and switched) and see if they still perfer the same one.}
 % Plus add a few figures as last year about the annotators population.
 
 
@@ -241,6 +248,7 @@ Every team can submit up to 10 runs, 5 per subtask. For each subtask, a required
 
 Apart from these required runs, any additional run for each subtask will be considered as a general run, i.e., anything is allowed, both from the method point of view and the information sources. 
 
+\textcolor{red}{GYGLIM: I wasn't aware we were allowing this many runs. I think it's too much and total of 3-5 would do}
 \section{Evaluation}
 %===========
 
